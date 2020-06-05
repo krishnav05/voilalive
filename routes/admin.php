@@ -87,3 +87,5 @@
     Route::get('generatekey','\App\Http\Controllers\Admin\LicenseController@generatekey')->middleware('auth:admin')->middleware('role:super')->name('generatekey');
 
     Route::post('license_generate','\App\Http\Controllers\Admin\LicenseController@license_generate')->middleware('auth:admin')->middleware('role:super;restaturaa');
+
+    Route::post('refresh','\App\Http\Controllers\Admin\DashboardController@refresh')->middleware('auth:admin')->middleware('role:super;restaturaa');

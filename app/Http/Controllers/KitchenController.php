@@ -8,6 +8,7 @@ use App\CategoryItem;
 use Auth;
 use DB;
 use Session;
+use App\Events\Notify;
 use App\SessionValue;
 use Illuminate\Support\Str;
 use Bitfumes\Multiauth\Model\Admin;
@@ -319,7 +320,7 @@ class KitchenController extends Controller
         $order->address_id = $request->address;
         $order->save();
         $id = $order->id;
-
+        event(new Notify($business_id));
         setcookie('orderid',$id);
         Kitchen::where('user_id',Auth::user()->id)->where('confirm_status',null)->where('business_id',$business_id)->update(['confirm_status' => 1,'order_id' => $id]);
 

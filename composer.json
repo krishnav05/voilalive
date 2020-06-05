@@ -19,6 +19,7 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "pusher/pusher-php-server": "^4.1",
         "rahulreghunath/textlocal": "^1.0",
         "razorpay/razorpay": "^2.5"
     },

@@ -30,9 +30,10 @@ class DashboardController extends Controller
 		$item = Kitchen::where('business_id',Auth::guard('admin')->user()->id)->get();
 		$itemnames = CategoryItem::where('business_id',Auth::guard('admin')->user()->id)->get();
 		$timeslot = TimeSlots::where('business_id',Auth::guard('admin')->user()->id)->get();
+		$business_id = Auth::guard('admin')->user()->id;
+		$count = 1;
 
-
-		return view('admin.dashboard',['orders' => $orders,'user' => $user,'useraddress' => $useraddress,'item' => $item,'itemnames' => $itemnames,'timeslot' => $timeslot]);
+		return view('admin.dashboard',['orders' => $orders,'user' => $user,'useraddress' => $useraddress,'item' => $item,'itemnames' => $itemnames,'timeslot' => $timeslot,'business_id'=>$business_id,'count'=>$count]);
 	}
 
 	public function update($id,$status)
@@ -81,8 +82,9 @@ class DashboardController extends Controller
 		$item = Kitchen::where('business_id',Auth::guard('admin')->user()->id)->get();
 		$itemnames = CategoryItem::where('business_id',Auth::guard('admin')->user()->id)->get();
 		$timeslot = TimeSlots::where('business_id',Auth::guard('admin')->user()->id)->get();
+		$count = 1;
 
-		return view('admin.past_orders',['orders' => $orders,'user' => $user,'useraddress' => $useraddress,'item' => $item,'itemnames' => $itemnames,'timeslot' => $timeslot]);
+		return view('admin.past_orders',['orders' => $orders,'user' => $user,'useraddress' => $useraddress,'item' => $item,'itemnames' => $itemnames,'timeslot' => $timeslot,'count'=>$count]);
 	}
 
 	public function maindashboard()
@@ -114,6 +116,21 @@ class DashboardController extends Controller
 
 		$tax = Auth::guard('admin')->user()->tax_applicable;
 		return view('admin.settings',['tax'=>$tax]);
+	}
+
+	public function refresh(Request $request)
+	{
+		$orders = Orders::where('business_id',Auth::guard('admin')->user()->id)->where('completed',null)->get();
+		$user = User::all();
+		$useraddress = UserAddress::all();
+		$item = Kitchen::where('business_id',Auth::guard('admin')->user()->id)->get();
+		$itemnames = CategoryItem::where('business_id',Auth::guard('admin')->user()->id)->get();
+		$timeslot = TimeSlots::where('business_id',Auth::guard('admin')->user()->id)->get();
+		$business_id = Auth::guard('admin')->user()->id;
+		$count = 1; 
+		$view = view('admin.dashboard',['orders' => $orders,'user' => $user,'useraddress' => $useraddress,'item' => $item,'itemnames' => $itemnames,'timeslot' => $timeslot,'business_id'=>$business_id,'count'=>$count])->renderSections();
+		// $sections = $view->renderSections();
+		return $view['content'];
 	}
 
 }

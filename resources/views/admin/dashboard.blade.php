@@ -2,8 +2,10 @@
 @extends('adminlte::page')
 
 @section('content')
-
-<div class="container main-section">
+<audio id="myAudio">
+  <source src="/assets/order.mp3" type="audio/mpeg">
+</audio>
+<div class="container main-section replace">
     <div class="row">
       <!-- <div class="col-lg-12 hedding pb-2">
         <h1> Table Row Toggel </h1>
@@ -29,7 +31,7 @@
             	@foreach($useraddress as $uaddress)
             	@if($uaddress['id'] == $order['address_id'])
               <tr colspan="7" data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
-                    <td>{{$loop->iteration}} <span class="Blink">&bull;</span> </td>
+                    <td>{{$count++}} <span class="Blink">&bull;</span> </td>
                     <td><strong>#{{$order['id']}}</strong></td>
                     <td>{{$userid['name']}}</td>
                     <td>{{$userid['phone']}}</td>
@@ -160,10 +162,42 @@
       </div>
     </div>
   </div>
-
 @endsection
 
 @section('js')
+<script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+<script type="text/javascript">
+  var x = document.getElementById("myAudio"); 
+
+  Pusher.logToConsole = true;
+    var id = '{{$business_id}}';
+    var pusher = new Pusher('da0b99c7f3ab82139542', {
+      cluster: 'ap2',
+      encrypted: true
+    });
+
+    var channel = pusher.subscribe('channel-name');
+    channel.bind('notify', function(data) {
+      // alert(JSON.stringify(data));
+      if(data.id == window.id)
+      { x.play();
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+                    /* the route pointing to the post function */
+                    url: "refresh",
+                    type: 'POST',
+                    /* send the csrf-token and the input to the controller */
+                    data: {_token: CSRF_TOKEN},
+                    /* remind that 'data' is the response of the AjaxController */
+                    success: function (data) { 
+                      console.log(data);
+                      $('.replace').replaceWith(data)
+                    }
+                });
+      }
+      
+    });
+  </script>
 <script type="text/javascript">
 	<!-- // Admin Order screen table detail toggle -->
 $('.accordion-toggle').click(function(){

@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=Questrial&display=swap" rel="stylesheet">  
     <link rel="apple-touch-icon" sizes="144x144" href="{{asset('assets/img/apple-touch-icon-ipad-retina-display.png')}}" />
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/slick-theme.css')}}"/>
+    @yield('css')
     <title>VoilaDelivery</title>
   </head>
 
