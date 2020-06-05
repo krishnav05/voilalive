@@ -61,7 +61,7 @@
     @endif
     <div class="row">
       <div class="col">
-          <a href="#" class="" id="show_address_field"> + Add new address </a>
+          <a href="#" class="add-address-btn-blue" id="show_address_field"> + Add new address </a>
           <form id="address_form" class="address-ad-frm mt-3" style="display: none;">
              <input type="text" class="form-control" name="name" placeholder="Name">
              <input type="text" class="form-control" name="email" placeholder="Email">
